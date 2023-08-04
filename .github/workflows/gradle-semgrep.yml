@@ -1,0 +1,23 @@
+name: semgrep-on-gradle
+
+on:
+    pull_request: {}
+    workflow_dispatch: {}
+
+jobs:
+  build-gradle-project:
+    runs-on: ubuntu-latest
+    container:
+        image: returntocorp/semgrep
+    env:
+        SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    steps:
+    - name: Checkout project sources
+      uses: actions/checkout@v3
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+    - name: Write lock file
+      run: ./gradlew dependencies --write-locks
+    - name: semgrep scan
+      run: semgrep ci
+    
