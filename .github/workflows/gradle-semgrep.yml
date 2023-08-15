@@ -23,6 +23,8 @@ jobs:
       uses: gradle/gradle-build-action@v2
     - name: Write lock file
       run: ./gradlew dependencies --write-locks
+    - name: semgrep login
+      run: semgrep login 
     - name: semgrep scan
       run: semgrep ci
     
