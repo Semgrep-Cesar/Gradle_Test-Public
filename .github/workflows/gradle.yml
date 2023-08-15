@@ -18,4 +18,15 @@ jobs:
     
     - name: Execute Gradle build
       run: ./gradlew build
+    - name: Write lock file
+      run: ./gradlew dependencies --write-locks
+  build-gradle-project:
+    runs-on: ubuntu-latest
+    container:
+        image: returntocorp/semgrep
+    env:
+        SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}
+    steps:
+    - name: semgrep scan
+      run: semgrep ci
 
